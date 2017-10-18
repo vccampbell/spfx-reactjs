@@ -1,0 +1,18 @@
+{
+  "$schema": "https://dev.office.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "filterable-list-table-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/filterableListTable/FilterableListTableWebPart.js",
+          "manifest": "./src/webparts/filterableListTable/FilterableListTableWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "FilterableListTableWebPartStrings": "lib/webparts/filterableListTable/loc/{locale}.js"
+  }
+}

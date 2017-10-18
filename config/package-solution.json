@@ -1,0 +1,11 @@
+{
+  "$schema": "https://dev.office.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "filterable-list-table-client-side-solution",
+    "id": "ece0f8ce-5103-4f4c-b1fb-139334d541fc",
+    "version": "1.0.0.0"
+  },
+  "paths": {
+    "zippedPackage": "solution/filterable-list-table.sppkg"
+  }
+}
