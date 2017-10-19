@@ -5,4 +5,5 @@ export interface IBodyState {
   item: any;
   rows: IListItem[];
   columns: IColumn[];
+  titleFilter: string;
 }

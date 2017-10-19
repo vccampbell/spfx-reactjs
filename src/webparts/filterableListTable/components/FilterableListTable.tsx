@@ -12,14 +12,14 @@ export default class FilterableListTable extends React.Component<IFilterableList
   constructor(props: IFilterableListTableProps, state: IConfigState) {
     super(props);
     this.state = {
-      status: this.listNotConfigured(this.props) ? "Please configure list in Web Part Properties" : "Ready"
+      status: this.listNotConfigured(this.props) ? "Please configure list in Web Part Properties" : `Querying ${this.props.listName}`
     };
   }
   public componentWillReceiveProps(nextProps: IFilterableListTableProps): void {
     console.log('FilterableListTable.componentWillReceiveProps');
     this.listItemEntityTypeName = undefined;
     this.state = {
-      status: this.listNotConfigured(this.props) ? "Please configure list in Web Part Properties" : "Ready"
+      status: this.listNotConfigured(this.props) ? "Please configure list in Web Part Properties" : `Querying ${this.props.listName}`
     };
   }
   public render(): React.ReactElement<IFilterableListTableProps> {

@@ -11,7 +11,7 @@ import styles from '../FilterableListTable.module.scss';
 import { IBodyProps } from './IBodyProps';
 import { IBodyState } from "./IBodyState";
 /*
-  Body Component is the 'main' Component for the WebPart. It receives the SPHttpClient and Site URL as 'props' from the FilterableListTable component
+  Body Component is the 'main' Component for the WebPart. It receives the SPHttpClient and Site URL as 'props' from the FilterableListTable Component
   The Component's 'state' sets the whether the Modal Dialog is shown, what item is being displayed in the Modal Dialog and a list of the SharePoint items
   returned from the REST call
 */
@@ -68,7 +68,8 @@ export default class Body extends React.Component<IBodyProps, IBodyState> {
       detailModal: false,
       item: null,
       columns: _columns,
-      rows: []
+      rows: [],
+      titleFilter: null
     };
   }
   //Using the SPHttpClient, retrieve a list of SharePoint list items.
@@ -190,23 +191,14 @@ export default class Body extends React.Component<IBodyProps, IBodyState> {
     //     this.loadItems();
     //   });
   }
-  public onKeyDown(event) {
-    const deleteKeyCode: number = 46;
-    switch(event.keyCode) {
-      case deleteKeyCode:
-        this.onDelete();
-        break;
-      default:
-        break;
-    }
-  }
-  public onDelete() {
-    console.log('delete item');
+  public onDelete(item: any) {
+    pnp.sp.web.lists.getByTitle(`${this.props.listName}`).items.getById(item.Id).delete("*").then(() => {
+      this.loadItems();
+    });
   }
   public onFilter(text:string) {
-    console.log('AllItems.onChanged', text, this.state.rows.length);
     this.setState({
-      rows: text.length > 0 ? this.state.rows.filter(i => i.Title.toLowerCase().indexOf(text) > -1) : this.state.rows
+      titleFilter: text
     });
   }
   //Renders the contents to the Modal Dialog
@@ -216,6 +208,13 @@ export default class Body extends React.Component<IBodyProps, IBodyState> {
   }
   //Renders the AllItems Component and a single instance of the Modal Component
   public render() {
+    //return a list of filtered items if a filter is being applied.
+    let filteredItems: IListItem[];
+    if(this.state.titleFilter) {
+      filteredItems = this.state.rows.filter(i => i.Title.toLowerCase().indexOf(this.state.titleFilter) > -1);
+    } else {
+      filteredItems = this.state.rows;
+    }
   return (
     <div>
       <div className={`ms-Grid-row ms-bgColor-themeDark ms-fontColor-white ${styles.row}`}>
@@ -230,7 +229,7 @@ export default class Body extends React.Component<IBodyProps, IBodyState> {
         siteUrl={this.props.siteUrl}
         passItemToModal={this.passItemToModal.bind(this)}
         filterItems={this.onFilter.bind(this)}
-        items={this.state.rows}
+        items={filteredItems}
         columns={this.state.columns} />
       <Dialog
         hidden={ !this.state.detailModal }

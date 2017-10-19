@@ -40,6 +40,10 @@ export default class ListItem extends React.Component<{ listitem: IListItem, han
   }
   public handleDelete() {
     var item = { Id: this.props.listitem.Id };
+    //call the event handler from the parent Component. This gets 'bound' from the Component's 'props'
+    this.props.handleDelete(item);
+    //close the Dialog window
+    this.props.handleCancel();
   }
   //handles the validation for the Title field, which is required.
   //Return an empty string if the field is valid,
